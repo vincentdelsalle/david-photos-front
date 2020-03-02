@@ -1,0 +1,64 @@
+.Frame {
+  position: relative;
+  width: 510px;
+  height: 520px;
+  border: solid 2px #ffffff;
+  margin-left: 230px;
+}
+
+.Frame > div {
+  display: block;
+  position: absolute;
+  box-sizing: border-box;
+  border: solid 5px black;
+  cursor: pointer;
+}
+
+.Frame .TopWhiteRecent {
+  background-color: #ebebeb;
+  height: 9.7%;
+  width: 22.6%;
+}
+.Frame .TopWhiteRecent:hover {
+  background-color: coral;
+}
+.Frame .TopWhiteRecent .JapaneseGlyphs {
+  position: relative;
+  top: 50%;
+  transform: translate(0px, -50%);
+  color: black;
+  font-size: 25px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.Frame .Signature {
+  background-color: #ebebeb;
+  top: 61.6%;
+  left: 61.3%;
+  height: 13.5%;
+  width: 32.5%;
+}
+.Frame .Signature img {
+  width: 90%;
+  margin-left: 5%;
+  margin-top: 12px;
+}
+
+.Frame .BottomThinWhite {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 3px;
+  background-color: #ebebeb;
+  bottom: 0;
+  left: 37.4%;
+  width: 56.5%;
+  height: 4.8%;
+}
+.Frame .BottomThinWhite > div {
+  position: relative;
+  top: 50%;
+  transform: translate(0px, -50%);
+  color: black;
+  font-size: 0.6em;
+}

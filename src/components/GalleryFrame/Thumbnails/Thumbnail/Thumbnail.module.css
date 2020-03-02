@@ -1,0 +1,32 @@
+.Spot {
+  display: inline-block;
+  width: 25%;
+  height: 100px;
+  position: relative;
+}
+
+.Spot > div {
+  transform: translate(-50%, -50%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.portrait {
+  height: 77px;
+}
+.landscape {
+  width: 77px;
+}
+
+.Image {
+  box-sizing: border-box;
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0 auto;
+  border: 1px solid #ebebeb;
+  transition: transform 0.5s ease;
+}
+.Image:hover {
+  transform: scale(1.3);
+}

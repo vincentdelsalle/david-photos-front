@@ -1,0 +1,136 @@
+.TopBlack {
+  background-color: #000000;
+  left: 22.6%;
+  height: 9.7%;
+  width: 38.7%;
+}
+
+.TopWhite {
+  background-color: #ebebeb;
+  left: 61.4%;
+  height: 9.7%;
+  width: 32.4%;
+}
+
+.LeftBrown {
+  background-color: #3e1d0c;
+  top: 9.7%;
+  height: 25.8%;
+  width: 9.9%;
+}
+
+.LeftWhite {
+  background-color: #ebebeb;
+  top: 35.5%;
+  height: 39.5%;
+  width: 9.9%;
+}
+
+.LeftYellow {
+  background-color: #e5c55e;
+  top: 75%;
+  height: 25%;
+  width: 9.9%;
+}
+
+.BigRed {
+  background-color: #dc0a0b;
+  top: 9.7%;
+  left: 9.9%;
+  width: 51.5%;
+  height: 51.9%;
+}
+
+.BigYellow {
+  background-color: #e5c55e;
+  top: 9.7%;
+  left: 61.3%;
+  width: 32.5%;
+  height: 25.8%;
+}
+
+.LongWhite {
+  background-color: #ebebeb;
+  top: 35.5%;
+  left: 61.3%;
+  width: 16.3%;
+  height: 26.1%;
+}
+
+.LongPurple {
+  background-color: #a3307d;
+  top: 35.5%;
+  left: 77.55%;
+  width: 16.2%;
+  height: 26.1%;
+}
+
+.SquareBlackWhite {
+  background: repeating-linear-gradient(
+    45deg,
+    #000000,
+    #000000 2.6%,
+    #ebebeb 2.8%,
+    #ebebeb 3.92%
+  );
+  top: 61.5%;
+  left: 9.9%;
+  width: 27.5%;
+  height: 26%;
+}
+
+.CenterWhite {
+  background-color: #ebebeb;
+  top: 61.6%;
+  left: 37.4%;
+  height: 13.5%;
+  width: 24%;
+}
+
+.CenterGreen {
+  background-color: #267c3f;
+  top: 75.1%;
+  left: 37.4%;
+  height: 12.4%;
+  width: 24%;
+}
+
+.BigBlue {
+  background-color: #0e104d;
+  top: 75.1%;
+  left: 61.3%;
+  width: 32.5%;
+  height: 20.2%;
+}
+
+.BottomGrey {
+  background-color: #6f787d;
+  top: 87.5%;
+  left: 37.4%;
+  height: 7.7%;
+  width: 24%;
+}
+
+.BottomWhite {
+  background-color: #ebebeb;
+  bottom: 0;
+  left: 9.9%;
+  width: 27.6%;
+  height: 12.5%;
+}
+
+.RightWhite {
+  background-color: #ebebeb;
+  right: 0;
+  top: 0;
+  height: 75%;
+  width: 6.2%;
+}
+
+.RightRed {
+  background-color: #dc0a0b;
+  right: 0;
+  bottom: 0;
+  height: 25%;
+  width: 6.2%;
+}

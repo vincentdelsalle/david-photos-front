@@ -1,0 +1,22 @@
+/* Internal gallery frame */
+.Frame {
+  width: 407px;
+  height: 416px;
+  background-color: black;
+  position: absolute;
+  left: 50px;
+  right: 50px;
+  top: 50px;
+  bottom: 50px;
+  border: 2px solid #ebebeb;
+  box-sizing: border-box;
+}
+
+/* Internal gallery frame special styling for WHITE gallery */
+.Frame.white {
+  box-shadow: 0 0 0 2px #000000, 0 0 0 4px #ebebeb;
+  left: 46px;
+  right: 46px;
+  top: 46px;
+  bottom: 46px;
+}

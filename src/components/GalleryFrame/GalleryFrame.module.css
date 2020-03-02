@@ -1,0 +1,67 @@
+/* External gallery frame  */
+.Frame {
+  position: relative;
+  float: left;
+  width: 511px;
+  height: 520px;
+  border: 2px solid #ebebeb;
+  box-sizing: border-box;
+}
+/* External gallery frame special styling for WHITE gallery */
+.Frame.white {
+  width: 503px;
+  height: 512px;
+  box-shadow: 0 0 0 2px #000000, 0 0 0 4px #ebebeb;
+  margin: 4px 0 0 4px;
+}
+/* External gallery frame special styling for BLACKWHITE gallery */
+.Frame.blackwhite {
+  background: repeating-linear-gradient(
+    45deg,
+    #ebebeb,
+    #ebebeb 0.3%,
+    #000000 0.5%,
+    #000000 0.9%
+  );
+}
+
+/* page number area */
+.Frame > .PageNumber {
+  position: absolute;
+  right: 0;
+  height: 50px;
+  width: 50px;
+  border-left: 2px solid white;
+  border-bottom: 2px solid white;
+}
+/* page number area special styling for WHITE gallery */
+.Frame.white > .PageNumber {
+  height: 44px;
+  width: 44px;
+  border-color: #000000;
+}
+/* page number area special styling for BLACKWHITE gallery */
+.Frame.blackwhite .PageNumber {
+  background-color: black;
+}
+.Frame > .PageNumber a {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  padding-top: 7px;
+  color: #ebebeb;
+  text-decoration: none;
+  font-size: 1.5em;
+}
+
+.Frame.yellow .PageNumber a,
+.Frame.white .PageNumber a {
+  color: #000000;
+}
+.Frame.white > .PageNumber > a {
+  padding-top: 3px;
+  padding-left: 1px;
+}
+.Frame.blackwhite .PageNumber a {
+  padding: 7px 0px;
+}
