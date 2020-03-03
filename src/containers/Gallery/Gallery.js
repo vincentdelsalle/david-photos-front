@@ -10,46 +10,54 @@ import Toolbar from "../../components/Navigation/Toolbar/Toolbar";
 import GalleryFrame from "../../components/GalleryFrame/GalleryFrame";
 
 class Gallery extends Component {
-  state = {
-    allColors: Object.keys(COLOR_HEXACODES),
-    currentColor: "",
-    toolbarColorsList: [],
-    thumbnailsData: [],
-    redirect: false,
-    loading: true
-  };
+  constructor(props) {
+    super(props);
 
-  static getDerivedStateFromProps(props, state) {
-    const allColors = state.allColors;
+    const allColors = Object.keys(COLOR_HEXACODES);
     const urlParamColor = props.match.params.color;
 
     const isUrlColorValid = allColors.find(
       colorName => colorName === urlParamColor
     );
 
+    let currentColor = "";
+    let redirect = false;
+
     if (!isUrlColorValid) {
-      return { redirect: true };
+      redirect = true;
+    } else {
+      currentColor = urlParamColor;
     }
 
-    if (state.currentColor !== urlParamColor) {
-      return { currentColor: urlParamColor };
-    }
-
-    return null;
+    this.state = {
+      allColors,
+      currentColor,
+      toolbarColorsList: [],
+      thumbnailsData: [],
+      redirect,
+      loading: true
+    };
   }
 
   componentDidMount() {
     const { allColors, currentColor } = this.state;
 
-    this.loadToolbarColorsList(allColors, currentColor);
-    this.loadThumbnailsData(currentColor);
+    if (currentColor) {
+      this.loadToolbarColorsList(allColors, currentColor);
+      this.loadThumbnailsData(currentColor);
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.match.params.color !== prevProps.match.params.color) {
+    const paramColor = this.props.match.params.color;
+    const prevParamColor = prevProps.match.params.color;
+
+    if (paramColor !== prevParamColor) {
       this.setState({ loading: true });
-      const allColors = Object.keys(COLOR_HEXACODES);
-      const urlParamColor = this.props.match.params.color;
+
+      const allColors = this.state.allColors;
+      const urlParamColor = paramColor;
+
       this.loadToolbarColorsList(allColors, urlParamColor);
       this.loadThumbnailsData(urlParamColor);
     }
@@ -59,6 +67,7 @@ class Gallery extends Component {
     const toolbarColorsList = allColors.filter(
       colorName => colorName !== currentColor
     );
+
     this.setState({ currentColor, toolbarColorsList });
   }
 
