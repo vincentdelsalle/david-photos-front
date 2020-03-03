@@ -1,14 +1,14 @@
 export const COLOR_HEXACODES = {
-  white: "#ebebeb",
+  purple: "#a3307d",
   yellow: "#e5c55e",
   brown: "#3e1d0c",
+  white: "#ebebeb",
   red: "#dc0a0b",
-  purple: "#a3307d",
   black: "#000000",
   green: "#267c3f",
   grey: "#6f787d",
-  blue: "#0e104d",
-  blackwhite: "#ebebeb"
+  blackwhite: "#ebebeb",
+  blue: "#0e104d"
 };
 
 //temporary translate color names in french while front is plugged on old API

@@ -7,9 +7,11 @@ const navigationItems = props => {
   return (
     <ul className={classes.NavigationItems}>
       {props.navColors.map(color => {
+        const attachedClasses = [classes.NavigationItem, classes[color]];
+
         return (
           <li
-            className={classes.NavigationItem}
+            className={attachedClasses.join(" ")}
             style={{ backgroundColor: COLOR_HEXACODES[color] }}
             key={color}
             onClick={() => props.colorSelected(color)}
