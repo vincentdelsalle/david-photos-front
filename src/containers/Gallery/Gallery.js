@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 
 import {
   COLOR_HEXACODES,
@@ -7,7 +7,8 @@ import {
 } from "../../utils/constants";
 import axios from "../../axios-photos";
 import Toolbar from "../../components/Navigation/Toolbar/Toolbar";
-import GalleryFrame from "../../components/GalleryFrame/GalleryFrame";
+import Collection from "../../components/Collection/Collection";
+// import Photo from "../../components/Photo/Photo";
 
 class Gallery extends Component {
   constructor(props) {
@@ -72,54 +73,73 @@ class Gallery extends Component {
   }
 
   loadThumbnailsData(currentColor) {
-    let updatedState = { ...this.state };
+    let thumbnailsData = [...this.state.thumbnailsData];
 
     axios
       .get(
         `/pictures/gallery?color=${ENGLISH_TO_FRENCH_COLOR_NAME[currentColor]}&page=1`
       )
       .then(response => {
-        updatedState.thumbnailsData = response.data.rows;
+        thumbnailsData = response.data.rows;
         this.setState({
-          thumbnailsData: updatedState.thumbnailsData,
+          thumbnailsData,
           loading: false
         });
       })
       .catch(error => console.log(error));
   }
 
+  logoClickedHandler = () => {
+    this.props.history.push("/");
+  };
+
   navColorSelectedHandler = color => {
-    this.props.history.push("/gallery/" + color);
+    this.props.history.push(`/gallery/${color}`);
+  };
+
+  openPhotoHandler = id => {
+    this.props.history.push(`/gallery/${this.state.currentColor}/${id}`);
   };
 
   render() {
     const {
-      redirect,
-      toolbarColorsList,
       currentColor,
+      toolbarColorsList,
       thumbnailsData,
-      loading
+      loading,
+      redirect
     } = this.state;
+    const currentHexacode = COLOR_HEXACODES[currentColor];
 
     if (redirect) {
       return <Redirect to="/" />;
     }
 
-    const currentHexacode = COLOR_HEXACODES[currentColor];
-
     return (
-      <React.Fragment>
-        <Toolbar
-          toolbarColors={toolbarColorsList}
-          navColorSelected={this.navColorSelectedHandler}
-        />
-        <GalleryFrame
-          currentHexacode={currentHexacode}
-          currentColor={currentColor}
-          thumbnailsData={thumbnailsData}
-          loading={loading}
-        />
-      </React.Fragment>
+      <Switch>
+        <Route path={this.props.match.url + "/:id"}>
+          <Toolbar
+            logoClicked={this.logoClickedHandler}
+            currentColor={currentColor}
+            navColorSelected={this.navColorSelectedHandler}
+          />
+          {/* Photo component spot */}
+        </Route>
+        <Route path={this.props.match.url}>
+          <Toolbar
+            logoClicked={this.logoClickedHandler}
+            toolbarColors={toolbarColorsList}
+            navColorSelected={this.navColorSelectedHandler}
+          />
+          <Collection
+            currentHexacode={currentHexacode}
+            currentColor={currentColor}
+            thumbnailsData={thumbnailsData}
+            loading={loading}
+            openPhoto={this.openPhotoHandler}
+          />
+        </Route>
+      </Switch>
     );
   }
 }

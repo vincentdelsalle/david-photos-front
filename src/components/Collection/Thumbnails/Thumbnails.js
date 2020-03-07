@@ -5,12 +5,12 @@ import Thumbnail from "./Thumbnail/Thumbnail";
 import Spinner from "../../UI/Spinner/Spinner";
 
 const thumbnails = props => {
-  const { currentColor, thumbnailsData, loading } = props;
+  const { currentColor, thumbnailsData, loading, openPhoto } = props;
 
   const attachedClasses = [classes.Frame, classes[currentColor]];
 
   let thumbnails = thumbnailsData.map(data => (
-    <Thumbnail key={data.id} data={data} />
+    <Thumbnail key={data.id} data={data} openPhoto={openPhoto} />
   ));
 
   if (loading) {
@@ -20,7 +20,7 @@ const thumbnails = props => {
   if (!thumbnails.length && !loading) {
     thumbnails = (
       <p style={{ color: "white" }}>
-        No photo yet in DB in {currentColor} gallery
+        No photo yet into DB for {currentColor} collection
       </p>
     );
   }

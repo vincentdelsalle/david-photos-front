@@ -10,7 +10,7 @@ function App() {
     <div>
       <Layout>
         <Switch>
-          <Route path="/gallery/:color" exact component={Gallery} />
+          <Route path="/gallery/:color" component={Gallery} />
           <Route path="/" exact component={Homepage} />
           <Route
             render={() => <h1 style={{ color: "#ffffff" }}>Not found.</h1>}

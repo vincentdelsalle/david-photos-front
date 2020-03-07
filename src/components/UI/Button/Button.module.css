@@ -1,0 +1,15 @@
+.Button {
+  width: 45px;
+  height: 45px;
+  border: 2px solid #ffffff;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+img {
+  width: 100%;
+}
+
+.Previous img {
+  transform: scaleX(-1);
+}

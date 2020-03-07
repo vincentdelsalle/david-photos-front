@@ -2,12 +2,14 @@
   float: left;
   width: 230px;
   height: 520px;
+  padding-left: 112px;
+  box-sizing: border-box;
 }
 
 .Logo {
   height: 65px;
 }
 
-.ColorsList {
+.NavPanel {
   height: calc(100% - 65px);
 }

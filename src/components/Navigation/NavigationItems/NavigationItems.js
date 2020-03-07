@@ -1,24 +1,22 @@
 import React from "react";
 
 import classes from "./NavigationItems.module.css";
-import { COLOR_HEXACODES } from "../../../utils/constants";
+import NavigationItem from "./NavigationItem/NavigationItem";
 
 const navigationItems = props => {
-  return (
-    <ul className={classes.NavigationItems}>
-      {props.navColors.map(color => {
-        const attachedClasses = [classes.NavigationItem, classes[color]];
+  const { navColors, colorSelected } = props;
 
-        return (
-          <li
-            className={attachedClasses.join(" ")}
-            style={{ backgroundColor: COLOR_HEXACODES[color] }}
-            key={color}
-            onClick={() => props.colorSelected(color)}
-          ></li>
-        );
-      })}
-    </ul>
+  return (
+    <div className={classes.NavigationItems}>
+      {navColors.map(color => (
+        <NavigationItem
+          key={color}
+          color={color}
+          colorSelected={colorSelected}
+          navType="collectionNav"
+        ></NavigationItem>
+      ))}
+    </div>
   );
 };
 

@@ -1,0 +1,38 @@
+.NavigationItem {
+  height: 45px;
+  width: 45px;
+  border: 2px solid white;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+/* hatching of the black-and-white square */
+.NavigationItem.blackwhite {
+  background: repeating-linear-gradient(
+    45deg,
+    #000000,
+    #000000 5%,
+    #ebebeb 5%,
+    #ebebeb 9.8%
+  );
+}
+
+/* double borders of the white square */
+.NavigationItem.white {
+  height: 37px;
+  width: 37px;
+  box-shadow: 0 0 0 2px #000000, 0 0 0 4px #ebebeb;
+  margin-left: 4px;
+  margin-bottom: 4px;
+  margin-top: 4px;
+}
+
+/* special margin-bottom for Photo's Toolbar */
+.photoNav {
+  margin-bottom: 20px;
+}
+
+/* special margin-bottom for the white square of the Photo's Toolbar */
+.photoNav.white {
+  margin-bottom: 24px;
+}

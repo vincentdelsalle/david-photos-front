@@ -1,10 +1,16 @@
 import React from "react";
 
-import classes from "./GalleryFrame.module.css";
+import classes from "./Collection.module.css";
 import Thumbnails from "./Thumbnails/Thumbnails";
 
-const galleryFrame = props => {
-  const { currentHexacode, currentColor, thumbnailsData, loading } = props;
+const collection = props => {
+  const {
+    currentHexacode,
+    currentColor,
+    thumbnailsData,
+    loading,
+    openPhoto
+  } = props;
 
   const attachedClasses = [classes.Frame, classes[props.currentColor]];
 
@@ -20,9 +26,10 @@ const galleryFrame = props => {
         currentColor={currentColor}
         thumbnailsData={thumbnailsData}
         loading={loading}
+        openPhoto={openPhoto}
       />
     </div>
   );
 };
 
-export default galleryFrame;
+export default collection;
