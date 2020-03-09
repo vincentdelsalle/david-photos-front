@@ -1,0 +1,23 @@
+.Frame {
+  display: inline-block;
+}
+
+.Photo {
+  display: block;
+}
+
+.Image {
+  border: 2px solid #fff;
+  padding: 2px;
+  position: relative;
+  margin: 0 auto;
+  height: 80vh;
+}
+
+.Caption {
+  font-weight: bold;
+}
+
+.hidden {
+  display: none;
+}

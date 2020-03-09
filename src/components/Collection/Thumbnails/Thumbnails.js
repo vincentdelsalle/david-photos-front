@@ -18,11 +18,7 @@ const thumbnails = props => {
   }
 
   if (!thumbnails.length && !loading) {
-    thumbnails = (
-      <p style={{ color: "white" }}>
-        No photo yet into DB for {currentColor} collection
-      </p>
-    );
+    thumbnails = <p>No photo yet into DB for {currentColor} collection</p>;
   }
 
   return <div className={attachedClasses.join(" ")}>{thumbnails}</div>;

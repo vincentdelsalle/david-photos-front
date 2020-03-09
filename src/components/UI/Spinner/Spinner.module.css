@@ -81,3 +81,9 @@
 .ThumbnailSpinner {
   margin: 150px auto;
 }
+
+.PhotoSpinner {
+  display: inline-block;
+  margin-top: 0;
+  margin-left: 100px;
+}

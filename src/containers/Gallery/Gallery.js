@@ -8,7 +8,7 @@ import {
 import axios from "../../axios-photos";
 import Toolbar from "../../components/Navigation/Toolbar/Toolbar";
 import Collection from "../../components/Collection/Collection";
-// import Photo from "../../components/Photo/Photo";
+import Photo from "../../components/Photo/Photo";
 
 class Gallery extends Component {
   constructor(props) {
@@ -123,7 +123,7 @@ class Gallery extends Component {
             currentColor={currentColor}
             navColorSelected={this.navColorSelectedHandler}
           />
-          {/* Photo component spot */}
+          <Photo></Photo>
         </Route>
         <Route path={this.props.match.url}>
           <Toolbar

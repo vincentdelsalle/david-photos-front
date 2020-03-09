@@ -19,7 +19,7 @@ const button = props => {
       style={{ backgroundColor: COLOR_HEXACODES[currentColor] }}
       className={[classes.Button, classes[props.btnType]].join(" ")}
     >
-      <img src={arrowImg} alt={`${btnType}`} />
+      <img className={classes.Image} src={arrowImg} alt={`${btnType}`} />
     </button>
   );
 };
