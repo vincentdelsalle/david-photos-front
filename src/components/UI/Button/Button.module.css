@@ -6,10 +6,15 @@
   cursor: pointer;
 }
 
+.Button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .Image {
   width: 100%;
 }
 
-.Previous img {
+.previous img {
   transform: scaleX(-1);
 }

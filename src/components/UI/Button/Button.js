@@ -6,9 +6,7 @@ import { COLOR_HEXACODES } from "../../../utils/constants";
 import whiteArrow from "../../../assets/images/white-arrow.png";
 import blackArrow from "../../../assets/images/black-arrow.png";
 
-const button = props => {
-  const { currentColor, btnType } = props;
-
+const button = ({ currentColor, btnType, buttonClicked, isButtonDisabled }) => {
   const arrowImg =
     currentColor === "white" || currentColor === "blackwhite"
       ? blackArrow
@@ -17,7 +15,9 @@ const button = props => {
   return (
     <button
       style={{ backgroundColor: COLOR_HEXACODES[currentColor] }}
-      className={[classes.Button, classes[props.btnType]].join(" ")}
+      className={[classes.Button, classes[btnType]].join(" ")}
+      onClick={() => buttonClicked(btnType)}
+      disabled={isButtonDisabled}
     >
       <img className={classes.Image} src={arrowImg} alt={`${btnType}`} />
     </button>

@@ -3,13 +3,20 @@ import React from "react";
 import classes from "./PhotoControls.module.css";
 import Button from "../../UI/Button/Button";
 
-const photoControls = props => {
-  const { currentColor } = props;
+const photoControls = ({ currentColor, buttonClicked, isButtonDisabled }) => {
+  const buttonTypes = ["next", "previous"];
 
   return (
     <div className={classes.PhotoControls}>
-      <Button currentColor={currentColor} btnType="Previous"></Button>
-      <Button currentColor={currentColor} btnType="Next"></Button>
+      {buttonTypes.map((btnType) => (
+        <Button
+          key={btnType}
+          currentColor={currentColor}
+          btnType={btnType}
+          buttonClicked={buttonClicked}
+          isButtonDisabled={isButtonDisabled}
+        ></Button>
+      ))}
     </div>
   );
 };
