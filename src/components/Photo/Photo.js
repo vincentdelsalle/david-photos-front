@@ -1,50 +1,48 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-import axios from "../../axios-photos";
 import Spinner from "../UI/Spinner/Spinner";
 import classes from "./Photo.module.css";
 
-const Photo = () => {
+const Photo = ({ colorCollectionData, onPhotoLoaded }) => {
   const { id: urlParamId } = useParams();
 
   const [loading, setLoading] = useState(true);
   const [photoData, setPhotoData] = useState(null);
-  const [photo, setPhoto] = useState([classes.hidden]);
+  const [photoClasses, setPhotoClasses] = useState([classes.hidden]);
   const [invalidId, setInvalidId] = useState(false);
 
   useEffect(() => {
-    axios
-      .get(`/pictures/${urlParamId}`)
-      .then(response => {
-        const data = response.data.data;
-        if (data) {
-          setPhotoData(data);
-        } else {
-          setInvalidId(true);
-          setLoading(false);
-        }
-      })
-      .catch(error => {
-        console.log("error: ", error);
-      });
-  }, [urlParamId]);
+    if (colorCollectionData && colorCollectionData.length) {
+      const selectedPhotoData = colorCollectionData.find(
+        (photo) => photo.id === parseInt(urlParamId)
+      );
+      if (selectedPhotoData) {
+        setPhotoData(selectedPhotoData);
+      } else {
+        setInvalidId(true);
+        onPhotoLoaded(false);
+        setLoading(false);
+      }
+    }
+  }, [urlParamId, colorCollectionData, onPhotoLoaded]);
 
-  const onImageLoaded = () => {
-    setPhoto([classes.Photo]);
+  const onImageLoaded = (id) => {
+    onPhotoLoaded(id);
+    setPhotoClasses([classes.Photo]);
     setLoading(false);
   };
 
-  const renderPhoto = data => {
-    const { file_name, name, place, month, year } = data;
+  const renderPhoto = (data) => {
+    const { id, file_name, name, place, month, year } = data;
 
     return (
-      <div className={photo}>
+      <div className={photoClasses}>
         <img
           className={classes.Image}
           src={`${process.env.REACT_APP_API_BASE_URL}${file_name}`}
           alt={name}
-          onLoad={onImageLoaded}
+          onLoad={() => onImageLoaded(id)}
         />
         <div className={classes.Caption}>
           {place}, {month} {year}
