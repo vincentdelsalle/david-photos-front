@@ -3,12 +3,10 @@ import React from "react";
 import classes from "./NavigationItems.module.css";
 import NavigationItem from "./NavigationItem/NavigationItem";
 
-const navigationItems = props => {
-  const { navColors, colorSelected } = props;
-
+const navigationItems = ({ navColors, colorSelected }) => {
   return (
     <div className={classes.NavigationItems}>
-      {navColors.map(color => (
+      {navColors.map((color) => (
         <NavigationItem
           key={color}
           color={color}
