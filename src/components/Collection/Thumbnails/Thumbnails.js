@@ -2,23 +2,32 @@ import React from "react";
 
 import classes from "./Thumbnails.module.css";
 import Thumbnail from "./Thumbnail/Thumbnail";
-import Spinner from "../../UI/Spinner/Spinner";
 
-const thumbnails = props => {
-  const { currentColor, thumbnailsData, loading, openPhoto } = props;
-
+const thumbnails = ({
+  currentColor,
+  colorCollectionData,
+  loading,
+  error,
+  openPhoto,
+}) => {
   const attachedClasses = [classes.Frame, classes[currentColor]];
 
-  let thumbnails = thumbnailsData.map(data => (
-    <Thumbnail key={data.id} data={data} openPhoto={openPhoto} />
+  let thumbnails = [...Array(16)].map((u, i) => (
+    <Thumbnail key={i}></Thumbnail>
   ));
 
-  if (loading) {
-    thumbnails = <Spinner additionalClassName="ThumbnailSpinner"></Spinner>;
+  if (error) {
+    thumbnails = <span>{error}</span>;
   }
 
-  if (!thumbnails.length && !loading) {
-    thumbnails = <p>No photo yet into DB for {currentColor} collection</p>;
+  if (!colorCollectionData.length && !loading && !error) {
+    thumbnails = <p>No photo into DB for that collection yet</p>;
+  }
+
+  if (colorCollectionData.length && !loading && !error) {
+    thumbnails = colorCollectionData.map((data) => (
+      <Thumbnail key={data.id} data={data} openPhoto={openPhoto} />
+    ));
   }
 
   return <div className={attachedClasses.join(" ")}>{thumbnails}</div>;

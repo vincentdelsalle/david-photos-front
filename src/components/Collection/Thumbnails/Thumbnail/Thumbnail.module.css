@@ -1,11 +1,20 @@
 .Spot {
   display: inline-block;
+  position: relative;
   width: 25%;
   height: 100px;
-  position: relative;
+  box-sizing: border-box;
 }
 
-.Spot > div {
+.SpinnerSpot {
+  float: right;
+  width: 25%;
+  height: 100px;
+  box-sizing: border-box;
+}
+
+.portrait,
+.landscape {
   transform: translate(-50%, -50%);
   position: absolute;
   top: 50%;
@@ -26,7 +35,12 @@
   margin: 0 auto;
   border: 1px solid #ebebeb;
   transition: transform 0.5s ease;
+  cursor: pointer;
 }
 .Image:hover {
   transform: scale(1.3);
+}
+
+.hidden {
+  display: none;
 }

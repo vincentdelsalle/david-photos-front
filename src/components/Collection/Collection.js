@@ -3,33 +3,35 @@ import React from "react";
 import classes from "./Collection.module.css";
 import Thumbnails from "./Thumbnails/Thumbnails";
 
-const collection = props => {
-  const {
+const collection = React.memo(
+  ({
     currentHexacode,
     currentColor,
-    thumbnailsData,
+    colorCollectionData,
     loading,
-    openPhoto
-  } = props;
+    error,
+    openPhoto,
+  }) => {
+    const attachedClasses = [classes.Frame, classes[currentColor]];
 
-  const attachedClasses = [classes.Frame, classes[props.currentColor]];
-
-  return (
-    <div
-      className={attachedClasses.join(" ")}
-      style={{ backgroundColor: currentHexacode }}
-    >
-      <div className={classes.PageNumber}>
-        <a href="#">1</a>
+    return (
+      <div
+        className={attachedClasses.join(" ")}
+        style={{ backgroundColor: currentHexacode }}
+      >
+        <div className={classes.PageNumber}>
+          <a href="#">1</a>
+        </div>
+        <Thumbnails
+          currentColor={currentColor}
+          colorCollectionData={colorCollectionData}
+          loading={loading}
+          error={error}
+          openPhoto={openPhoto}
+        />
       </div>
-      <Thumbnails
-        currentColor={currentColor}
-        thumbnailsData={thumbnailsData}
-        loading={loading}
-        openPhoto={openPhoto}
-      />
-    </div>
-  );
-};
+    );
+  }
+);
 
 export default collection;
