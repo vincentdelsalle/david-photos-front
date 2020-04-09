@@ -3,7 +3,7 @@ import { Redirect, Route, Switch } from "react-router-dom";
 
 import {
   COLOR_HEXACODES,
-  ENGLISH_TO_FRENCH_COLOR_NAME
+  ENGLISH_TO_FRENCH_COLOR_NAME,
 } from "../../utils/constants";
 import axios from "../../axios-photos";
 import Toolbar from "../../components/Navigation/Toolbar/Toolbar";
@@ -18,10 +18,10 @@ class Gallery extends Component {
     const urlParamColor = props.match.params.color;
 
     const isUrlColorValid = allColors.find(
-      colorName => colorName === urlParamColor
+      (colorName) => colorName === urlParamColor
     );
 
-    let currentColor = "";
+    let currentColor = null;
     let redirect = false;
 
     if (!isUrlColorValid) {
@@ -34,9 +34,11 @@ class Gallery extends Component {
       allColors,
       currentColor,
       toolbarColorsList: [],
-      thumbnailsData: [],
+      collectionData: [],
       redirect,
-      loading: true
+      loading: true,
+      error: null,
+      isDisabled: false,
     };
   }
 
@@ -45,7 +47,7 @@ class Gallery extends Component {
 
     if (currentColor) {
       this.loadToolbarColorsList(allColors, currentColor);
-      this.loadThumbnailsData(currentColor);
+      this.loadCollectionData(currentColor);
     }
   }
 
@@ -60,55 +62,87 @@ class Gallery extends Component {
       const urlParamColor = paramColor;
 
       this.loadToolbarColorsList(allColors, urlParamColor);
-      this.loadThumbnailsData(urlParamColor);
+      this.loadCollectionData(urlParamColor);
     }
   }
 
   loadToolbarColorsList(allColors, currentColor) {
     const toolbarColorsList = allColors.filter(
-      colorName => colorName !== currentColor
+      (colorName) => colorName !== currentColor
     );
 
     this.setState({ currentColor, toolbarColorsList });
   }
 
-  loadThumbnailsData(currentColor) {
-    let thumbnailsData = [...this.state.thumbnailsData];
+  loadCollectionData(currentColor) {
+    let collectionData = [...this.state.collectionData];
 
     axios
       .get(
         `/pictures/gallery?color=${ENGLISH_TO_FRENCH_COLOR_NAME[currentColor]}&page=1`
       )
-      .then(response => {
-        thumbnailsData = response.data.rows;
+      .then((response) => {
+        collectionData = response.data.rows;
         this.setState({
-          thumbnailsData,
-          loading: false
+          collectionData,
+          loading: false,
         });
       })
-      .catch(error => console.log(error));
+      .catch((error) => {
+        this.setState({
+          loading: false,
+          error: error.message,
+        });
+      });
   }
 
   logoClickedHandler = () => {
     this.props.history.push("/");
   };
 
-  navColorSelectedHandler = color => {
-    this.props.history.push(`/gallery/${color}`);
+  navColorSelectedHandler = (color, type) => {
+    this.setState(
+      type === "collectionNav"
+        ? {
+            collectionData: [],
+            loading: false,
+          }
+        : {
+            loading: false,
+          },
+      this.props.history.push(`/gallery/${color}`)
+    );
   };
 
-  openPhotoHandler = id => {
-    this.props.history.push(`/gallery/${this.state.currentColor}/${id}`);
+  openPhotoHandler = (id) => {
+    this.setState(
+      { isDisabled: false },
+      this.props.history.push(`/gallery/${this.state.currentColor}/${id}`)
+    );
+  };
+
+  buttonClickedHandler = (btnType) => {
+    //TODO logic to handle previous and next photo buttons
+  };
+
+  onPhotoLoadedHandler = (id) => {
+    if (id) {
+      return;
+    }
+    this.setState({ isDisabled: true });
   };
 
   render() {
     const {
       currentColor,
       toolbarColorsList,
-      thumbnailsData,
+      collectionData,
+      redirect,
       loading,
-      redirect
+      error,
+      isDisabled,
     } = this.state;
+
     const currentHexacode = COLOR_HEXACODES[currentColor];
 
     if (redirect) {
@@ -119,14 +153,21 @@ class Gallery extends Component {
       <Switch>
         <Route path={this.props.match.url + "/:id"}>
           <Toolbar
+            toolbarType="photoToolbar"
             logoClicked={this.logoClickedHandler}
             currentColor={currentColor}
             navColorSelected={this.navColorSelectedHandler}
+            buttonClicked={this.buttonClickedHandler}
+            isButtonDisabled={isDisabled}
           />
-          <Photo></Photo>
+          <Photo
+            colorCollectionData={collectionData}
+            onPhotoLoaded={this.onPhotoLoadedHandler}
+          ></Photo>
         </Route>
         <Route path={this.props.match.url}>
           <Toolbar
+            toolbarType="collectionToolbar"
             logoClicked={this.logoClickedHandler}
             toolbarColors={toolbarColorsList}
             navColorSelected={this.navColorSelectedHandler}
@@ -134,8 +175,9 @@ class Gallery extends Component {
           <Collection
             currentHexacode={currentHexacode}
             currentColor={currentColor}
-            thumbnailsData={thumbnailsData}
+            colorCollectionData={collectionData}
             loading={loading}
+            error={error}
             openPhoto={this.openPhotoHandler}
           />
         </Route>
