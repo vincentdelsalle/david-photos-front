@@ -3,8 +3,12 @@ import React from "react";
 import classes from "./PhotoControls.module.css";
 import Button from "../../UI/Button/Button";
 
-const photoControls = ({ currentColor, buttonClicked, isButtonDisabled }) => {
-  const buttonTypes = ["next", "previous"];
+const photoControls = ({
+  currentColor,
+  switchButtonClicked,
+  isSwitchButtonDisabled,
+}) => {
+  const buttonTypes = ["previous", "next"];
 
   return (
     <div className={classes.PhotoControls}>
@@ -13,8 +17,8 @@ const photoControls = ({ currentColor, buttonClicked, isButtonDisabled }) => {
           key={btnType}
           currentColor={currentColor}
           btnType={btnType}
-          buttonClicked={buttonClicked}
-          isButtonDisabled={isButtonDisabled}
+          buttonClicked={switchButtonClicked}
+          isButtonDisabled={isSwitchButtonDisabled[btnType]}
         ></Button>
       ))}
     </div>

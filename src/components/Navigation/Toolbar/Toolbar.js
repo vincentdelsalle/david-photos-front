@@ -12,8 +12,8 @@ const toolbar = ({
   currentColor,
   toolbarColors,
   navColorSelected,
-  buttonClicked,
-  isButtonDisabled,
+  switchButtonClicked,
+  isSwitchButtonDisabled,
 }) => {
   return (
     <div className={classes.Toolbar}>
@@ -30,8 +30,8 @@ const toolbar = ({
             ></NavigationItem>
             <PhotoControls
               currentColor={currentColor}
-              buttonClicked={buttonClicked}
-              isButtonDisabled={isButtonDisabled}
+              switchButtonClicked={switchButtonClicked}
+              isSwitchButtonDisabled={isSwitchButtonDisabled}
             ></PhotoControls>
           </React.Fragment>
         )}

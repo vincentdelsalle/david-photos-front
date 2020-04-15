@@ -35,10 +35,11 @@ class Gallery extends Component {
       currentColor,
       toolbarColorsList: [],
       collectionData: [],
+      displayedPhotoID: null,
       redirect,
       loading: true,
       error: null,
-      isDisabled: false,
+      isSwitchButtonDisabled: { previous: false, next: false },
     };
   }
 
@@ -110,26 +111,66 @@ class Gallery extends Component {
         : {
             loading: false,
           },
-      this.props.history.push(`/gallery/${color}`)
+      () => this.props.history.push(`/gallery/${color}`)
     );
   };
 
   openPhotoHandler = (id) => {
-    this.setState(
-      { isDisabled: false },
-      this.props.history.push(`/gallery/${this.state.currentColor}/${id}`)
+    this.props.history.push(`/gallery/${this.state.currentColor}/${id}`);
+  };
+
+  switchButtonClickedHandler = (btnType) => {
+    const { collectionData, displayedPhotoID, currentColor } = this.state;
+
+    const displayedPhotoIndex = collectionData.findIndex(
+      (photo) => photo.id === displayedPhotoID
     );
+
+    const newPhotoData = collectionData.find((_, i) => {
+      return btnType === "next"
+        ? i === displayedPhotoIndex + 1
+        : btnType === "previous"
+        ? i === displayedPhotoIndex - 1
+        : null;
+    });
+
+    this.props.history.push(`/gallery/${currentColor}/${newPhotoData.id}`);
   };
 
-  buttonClickedHandler = (btnType) => {
-    //TODO logic to handle previous and next photo buttons
-  };
+  onPhotoLoadedHandler = (status, photoID) => {
+    if (status === "isLoaded" && photoID) {
+      return this.setState({ displayedPhotoID: photoID }, () => {
+        const {
+          collectionData,
+          displayedPhotoID,
+          isSwitchButtonDisabled,
+        } = this.state;
 
-  onPhotoLoadedHandler = (id) => {
-    if (id) {
-      return;
+        const lastCollectionIndex = collectionData.length - 1;
+        const displayedPhotoIndex = collectionData.findIndex(
+          (photo) => photo.id === displayedPhotoID
+        );
+        const isSwitchButtonDisabledCopied = { ...isSwitchButtonDisabled };
+
+        if (displayedPhotoIndex === lastCollectionIndex) {
+          isSwitchButtonDisabledCopied.previous = false;
+          this.setState({
+            isSwitchButtonDisabled: isSwitchButtonDisabledCopied,
+          });
+        } else if (displayedPhotoIndex === 0) {
+          isSwitchButtonDisabledCopied.next = false;
+          this.setState({
+            isSwitchButtonDisabled: isSwitchButtonDisabledCopied,
+          });
+        } else {
+          this.setState({
+            isSwitchButtonDisabled: { previous: false, next: false },
+          });
+        }
+      });
+    } else {
+      this.setState({ isSwitchButtonDisabled: { previous: true, next: true } });
     }
-    this.setState({ isDisabled: true });
   };
 
   render() {
@@ -140,7 +181,7 @@ class Gallery extends Component {
       redirect,
       loading,
       error,
-      isDisabled,
+      isSwitchButtonDisabled,
     } = this.state;
 
     const currentHexacode = COLOR_HEXACODES[currentColor];
@@ -157,8 +198,8 @@ class Gallery extends Component {
             logoClicked={this.logoClickedHandler}
             currentColor={currentColor}
             navColorSelected={this.navColorSelectedHandler}
-            buttonClicked={this.buttonClickedHandler}
-            isButtonDisabled={isDisabled}
+            switchButtonClicked={this.switchButtonClickedHandler}
+            isSwitchButtonDisabled={isSwitchButtonDisabled}
           />
           <Photo
             colorCollectionData={collectionData}
