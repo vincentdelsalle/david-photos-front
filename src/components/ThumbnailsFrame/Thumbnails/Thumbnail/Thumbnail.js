@@ -1,9 +1,10 @@
 import React, { Fragment, useState } from "react";
+import { withRouter } from "react-router-dom";
 
 import classes from "./Thumbnail.module.css";
 import Spinner from "../../../UI/Spinner/Spinner";
 
-const Thumbnail = ({ openPhoto, data }) => {
+const Thumbnail = ({ photoData, collectionData, match, history }) => {
   const [thumbnailClasses, setThumbnailClasses] = useState([classes.hidden]);
   const [spinnerClasses, setSpinnerClasses] = useState([classes.SpinnerSpot]);
   const [loading, setLoading] = useState(true);
@@ -21,14 +22,19 @@ const Thumbnail = ({ openPhoto, data }) => {
           <Spinner additionalClassName="ThumbnailSpinner"></Spinner>
         </div>
       )}
-      {data && (
+      {photoData && (
         <div className={thumbnailClasses}>
-          <div className={classes[data.orientation]}>
+          <div className={classes[photoData.orientation]}>
             <img
               className={classes.Image}
-              src={`${process.env.REACT_APP_API_BASE_URL}${data.thumb_name}`}
-              alt={data.file_name}
-              onClick={() => openPhoto(data.id)}
+              src={`${process.env.REACT_APP_API_BASE_URL}${photoData.thumb_name}`}
+              alt={photoData.file_name}
+              onClick={() =>
+                history.push({
+                  pathname: `${match.url}/${photoData.id}`,
+                  state: { collectionData, photoData },
+                })
+              }
               onLoad={() => onImageLoaded()}
             />
           </div>
@@ -38,4 +44,4 @@ const Thumbnail = ({ openPhoto, data }) => {
   );
 };
 
-export default Thumbnail;
+export default withRouter(Thumbnail);

@@ -1,3 +1,16 @@
+export const ALL_COLORS_LIST = [
+  "purple",
+  "yellow",
+  "brown",
+  "white",
+  "red",
+  "black",
+  "green",
+  "grey",
+  "blackwhite",
+  "blue",
+];
+
 export const COLOR_HEXACODES = {
   purple: "#a3307d",
   yellow: "#e5c55e",
@@ -8,7 +21,7 @@ export const COLOR_HEXACODES = {
   green: "#267c3f",
   grey: "#6f787d",
   blackwhite: "#ebebeb",
-  blue: "#0e104d"
+  blue: "#0e104d",
 };
 
 //temporary translate color names in french while front is plugged on old API
@@ -22,5 +35,5 @@ export const ENGLISH_TO_FRENCH_COLOR_NAME = {
   green: "Vert",
   grey: "Gris",
   blue: "Bleu",
-  blackwhite: "Noir-Blanc"
+  blackwhite: "Noir-Blanc",
 };

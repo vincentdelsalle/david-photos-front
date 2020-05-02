@@ -4,28 +4,27 @@ import classes from "./Toolbar.module.css";
 import Logo from "../../Logo/Logo";
 import NavigationItems from "../NavigationItems/NavigationItems";
 import NavigationItem from "../NavigationItems/NavigationItem/NavigationItem";
-import PhotoControls from "../../Photo/PhotoControls/PhotoControls";
+import PhotoControls from "../PhotoControls/PhotoControls";
 
 const toolbar = ({
   toolbarType,
-  logoClicked,
   currentColor,
-  toolbarColors,
-  navColorSelected,
   switchButtonClicked,
   isSwitchButtonDisabled,
 }) => {
   return (
     <div className={classes.Toolbar}>
       <div className={classes.Logo}>
-        <Logo logoClicked={logoClicked} />
+        <Logo />
       </div>
       <nav className={classes.NavPanel}>
+        {toolbarType === "collectionToolbar" && (
+          <NavigationItems currentColor={currentColor} />
+        )}
         {toolbarType === "photoToolbar" && (
           <React.Fragment>
             <NavigationItem
               color={currentColor}
-              colorSelected={navColorSelected}
               navType="photoNav"
             ></NavigationItem>
             <PhotoControls
@@ -35,15 +34,9 @@ const toolbar = ({
             ></PhotoControls>
           </React.Fragment>
         )}
-        {toolbarType === "collectionToolbar" && (
-          <NavigationItems
-            navColors={toolbarColors}
-            colorSelected={navColorSelected}
-          />
-        )}
       </nav>
     </div>
   );
 };
 
-export default toolbar;
+export default React.memo(toolbar);

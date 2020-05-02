@@ -1,9 +1,10 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
 
 import classes from "./NavigationItem.module.css";
 import { COLOR_HEXACODES } from "../../../../utils/constants";
 
-const navigationItem = ({ color, colorSelected, navType }) => {
+const navigationItem = ({ color, navType, history }) => {
   const attachedClasses = [
     classes.NavigationItem,
     classes[navType],
@@ -13,9 +14,9 @@ const navigationItem = ({ color, colorSelected, navType }) => {
     <div
       className={attachedClasses.join(" ")}
       style={{ backgroundColor: COLOR_HEXACODES[color] }}
-      onClick={() => colorSelected(color, navType)}
+      onClick={() => history.push(`/gallery/${color}`)}
     ></div>
   );
 };
 
-export default navigationItem;
+export default withRouter(navigationItem);
