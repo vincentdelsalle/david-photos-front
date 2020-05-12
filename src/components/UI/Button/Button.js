@@ -2,7 +2,7 @@ import React from "react";
 
 import classes from "./Button.module.css";
 
-import { COLOR_HEXACODES } from "../../../utils/constants";
+import { COLOR_HEXACODES } from "../../../shared/constants";
 import whiteArrow from "../../../assets/images/white-arrow.png";
 import blackArrow from "../../../assets/images/black-arrow.png";
 

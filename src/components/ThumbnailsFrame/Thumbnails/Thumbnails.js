@@ -10,18 +10,16 @@ const thumbnails = ({ currentColor, colorCollectionData, loading, error }) => {
     <Thumbnail key={i}></Thumbnail>
   ));
 
-  if (currentColor && !colorCollectionData.length && !loading && !error) {
-    thumbnails = <p>No photo into DB for that collection yet</p>;
-  }
-
-  if (colorCollectionData.length && !loading && !error) {
-    thumbnails = colorCollectionData.map((photoData) => (
-      <Thumbnail
-        key={photoData.id}
-        photoData={photoData}
-        collectionData={colorCollectionData}
-      />
-    ));
+  if (colorCollectionData && !loading && !error) {
+    !colorCollectionData.length
+      ? (thumbnails = <p>No photo into DB for that collection yet</p>)
+      : (thumbnails = colorCollectionData.map((photoData) => (
+          <Thumbnail
+            key={photoData.id}
+            photoData={photoData}
+            collectionData={colorCollectionData}
+          />
+        )));
   }
 
   if (error) {

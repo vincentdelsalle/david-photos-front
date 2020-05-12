@@ -1,7 +1,7 @@
 import React from "react";
 
 import classes from "./ThumbnailsFrame.module.css";
-import { COLOR_HEXACODES } from "../../utils/constants";
+import { COLOR_HEXACODES } from "../../shared/constants";
 import Thumbnails from "./Thumbnails/Thumbnails";
 
 const thumbnailsFrame = ({

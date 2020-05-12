@@ -4,7 +4,7 @@ import { useParams, Redirect } from "react-router-dom";
 import {
   ALL_COLORS_LIST,
   ENGLISH_TO_FRENCH_COLOR_NAME,
-} from "../../utils/constants";
+} from "../../shared/constants";
 import axios from "../../axios-photos";
 import classes from "./Photo.module.css";
 import Spinner from "../../components/UI/Spinner/Spinner";

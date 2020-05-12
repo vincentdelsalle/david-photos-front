@@ -2,7 +2,7 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 
 import classes from "./NavigationItem.module.css";
-import { COLOR_HEXACODES } from "../../../../utils/constants";
+import { COLOR_HEXACODES } from "../../../../shared/constants";
 
 const navigationItem = ({ color, navType, history }) => {
   const attachedClasses = [

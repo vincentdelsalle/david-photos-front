@@ -1,7 +1,7 @@
 import React from "react";
 
 import classes from "./NavigationItems.module.css";
-import { ALL_COLORS_LIST } from "../../../utils/constants";
+import { ALL_COLORS_LIST } from "../../../shared/constants";
 import NavigationItem from "./NavigationItem/NavigationItem";
 
 const navigationItems = ({ currentColor }) => {
