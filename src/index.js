@@ -1,23 +1,34 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
-import { createStore, applyMiddleware, compose } from "redux";
+import { createStore, applyMiddleware, compose, combineReducers } from "redux";
 import { Provider } from "react-redux";
 import createSagaMiddleware from "redux-saga";
+import { createLogger } from 'redux-logger'
 
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import reducer from "./store/reducers/collection";
+import collectionReducer from "./store/reducers/collection";
+import photoReducer from "./store/reducers/photo";
 import { watchCollection } from "./store/sagas";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
+const rootReducer = combineReducers({
+  collection: collectionReducer,
+  photo: photoReducer
+});
+
 const sagaMiddleware = createSagaMiddleware();
 
+const logger = createLogger({
+  collapsed: true
+});
+
 const store = createStore(
-  reducer,
-  composeEnhancers(applyMiddleware(sagaMiddleware))
+  rootReducer,
+  composeEnhancers(applyMiddleware(sagaMiddleware, logger))
 );
 
 sagaMiddleware.run(watchCollection);

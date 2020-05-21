@@ -1,62 +1,53 @@
 import React, { useReducer, useEffect, Fragment } from "react";
 import { useParams, Redirect } from "react-router-dom";
+import { connect } from 'react-redux'
 
 import {
   ALL_COLORS_LIST,
-  ENGLISH_TO_FRENCH_COLOR_NAME,
 } from "../../shared/constants";
-import axios from "../../axios-photos";
 import classes from "./Photo.module.css";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import Toolbar from "../../components/Navigation/Toolbar/Toolbar";
+import * as actions from "../../store/actions";
 
 const initialState = {
-  data: {
-    photo: null,
-    index: null,
-    collection: [],
-  },
-  photoClasses: [classes.hidden],
-  isLoading: true,
-  error: null,
-  redirect: false,
+  photoClassName: [classes.hidden],
+  loading: true,
   isSwitchButtonDisabled: {
-    previous: false,
-    next: false,
+    previous: true,
+    next: true,
   },
+  redirect: false,
 };
 
 const photoReducer = (state, action) => {
   switch (action.type) {
-    case "SET_DATA":
+    case "ENABLE_SWITCH_BUTTONS":
       return {
         ...state,
-        data: {
-          ...state.data,
-          photo: action.photoData,
-          index: action.photoIndex,
-          collection: action.collectionData,
+        isSwitchButtonDisabled: {
+          previous: false,
+          next: false,
         },
       };
-    case "TOGGLE_BUTTONS_STATUS":
+    case "TOGGLE_SWITCH_BUTTON_STATUS":
       return {
         ...state,
         isSwitchButtonDisabled: {
           ...state.isSwitchButtonDisabled,
-          [action.btnName]: !state.isSwitchButtonDisabled[action.btnName],
+          [action.btnType]: !state.isSwitchButtonDisabled[action.btnType],
         },
       };
     case "LOAD_PHOTO_SUCCEEDED":
       return {
         ...state,
-        photoClasses: [classes.Photo],
-        isLoading: false,
+        photoClassName: [classes.Photo],
+        loading: false,
       };
-    case "LOAD_PHOTO_FAILED":
+    case "FETCH_COLLECTION_FAILED":
       return {
         ...state,
-        isLoading: false,
-        error: action.errorMessage,
+        loading: false,
       };
     case "REDIRECT":
       return { ...state, redirect: action.path };
@@ -65,107 +56,79 @@ const photoReducer = (state, action) => {
     default:
       throw new Error("Should not get there!");
   }
-};
+}
 
-const Photo = ({ history, location }) => {
+const Photo = ({
+  history,
+  onFetchCollection,
+  onSetPhotoData,
+  photoData,
+  photoIndex,
+  collectionData,
+  error,
+}) => {
   const { color: urlColorParam, id: urlIDParam } = useParams();
+
+  const validUrlColor = ALL_COLORS_LIST.find(
+    (colorName) => colorName === urlColorParam
+  );
+
+  const collectionInStore = collectionData && collectionData[validUrlColor]
 
   const [photoState, dispatch] = useReducer(photoReducer, initialState);
 
   useEffect(() => {
-    if (!location.state) {
-      return;
+    if (!validUrlColor || collectionInStore) {
+      return
     }
-
-    const { photoData, collectionData } = location.state;
-
-    const photoIndex = findPhotoIndexInCollection(collectionData, photoData.id);
-
-    photoIndex === 0 && toggleButtonStatus("previous");
-    photoIndex === collectionData.length - 1 && toggleButtonStatus("next");
-    dispatch({
-      type: "SET_DATA",
-      photoData: photoData,
-      photoIndex: photoIndex,
-      collectionData: collectionData,
-    });
-  }, [location.state]);
-
-  const toggleButtonStatus = (btnName) => {
-    dispatch({ type: "TOGGLE_BUTTONS_STATUS", btnName: btnName });
-  };
+    onFetchCollection(validUrlColor);
+  }, [validUrlColor, collectionInStore, onFetchCollection]);
 
   useEffect(() => {
-    if (location.state) {
-      return;
+    if (!collectionData || !collectionData[validUrlColor]) {
+      dispatch({ type: "FETCH_COLLECTION_FAILED" });
+      return
     }
+    dispatch({ type: "ENABLE_SWITCH_BUTTONS" });
 
-    const urlColorName = ALL_COLORS_LIST.find(
-      (colorName) => colorName === urlColorParam
+    const photoDataInCollection = collectionData[validUrlColor].find(
+      (p) => p.id === parseInt(urlIDParam)
     );
 
-    if (urlColorName) {
-      if (!photoState.data.collection.length) {
-        axios
-          .get(
-            `/pictures/gallery?color=${ENGLISH_TO_FRENCH_COLOR_NAME[urlColorName]}&page=1`
-          )
-          .then((response) => {
-            const collectionData = response.data.rows;
-            const photoDataInCollection = collectionData.find(
-              (p) => p.id === parseInt(urlIDParam)
-            );
-            if (photoDataInCollection) {
-              const photoIndex = findPhotoIndexInCollection(
-                collectionData,
-                photoDataInCollection.id
-              );
-              photoIndex === 0 && toggleButtonStatus("previous");
-              photoIndex === collectionData.length - 1 &&
-                toggleButtonStatus("next");
-              dispatch({
-                type: "SET_DATA",
-                photoData: photoDataInCollection,
-                photoIndex: photoIndex,
-                collectionData: collectionData,
-              });
-            } else {
-              dispatch({ type: "REDIRECT", path: `/gallery/${urlColorParam}` });
-            }
-          })
-          .catch((error) => {
-            dispatch({
-              type: "LOAD_PHOTO_FAILED",
-              errorMessage: error.message,
-            });
-          });
-      }
+    if (photoDataInCollection) {
+      const photoIndex = findPhotoIndexInCollection(
+        collectionData[validUrlColor],
+        photoDataInCollection.id
+      );
+      photoIndex === 0 && disableButton("previous");
+      photoIndex === collectionData[validUrlColor].length - 1 &&
+        disableButton("next");
+      onSetPhotoData(photoDataInCollection, photoIndex)
     } else {
-      dispatch({ type: "REDIRECT", path: "/" });
+      dispatch({ type: "REDIRECT", path: `/gallery/${validUrlColor}` });
     }
-  }, [location.state, photoState.data.collection, urlColorParam, urlIDParam]);
+  }, [collectionData, validUrlColor, urlIDParam, onSetPhotoData])
 
-  const switchButtonClickedHandler = (btnName) => {
-    dispatch({ type: "RESET" });
-
-    const { collection: collectionData, index } = photoState.data;
-
-    const photoData = collectionData.find((_, i) => {
-      return btnName === "next"
-        ? i === index + 1
-        : btnName === "previous"
-        ? i === index - 1
-        : null;
-    });
-
-    history.push({
-      pathname: `/gallery/${urlColorParam}/${photoData.id}`,
-      state: { collectionData, photoData },
-    });
+  const disableButton = (btnType) => {
+    dispatch({ type: "TOGGLE_SWITCH_BUTTON_STATUS", btnType: btnType });
   };
 
   const findPhotoIndexInCollection = (collectionData, photoId) => {
     return collectionData.findIndex((photo) => photo.id === photoId);
+  };
+
+  const switchButtonClickedHandler = (btnType) => {
+    dispatch({ type: "RESET" });
+
+    const photoData = collectionData[validUrlColor].find((_, i) => {
+      return btnType === "next"
+        ? i === photoIndex + 1
+        : btnType === "previous"
+          ? i === photoIndex - 1
+          : null;
+    });
+
+    history.push(`/gallery/${validUrlColor}/${photoData.id}`)
   };
 
   const onImageLoaded = () => {
@@ -174,7 +137,7 @@ const Photo = ({ history, location }) => {
 
   const renderPhoto = ({ file_name, name, place, month, year }) => {
     return (
-      <div className={photoState.photoClasses}>
+      <div className={photoState.photoClassName}>
         <img
           className={classes.Image}
           src={`${process.env.REACT_APP_API_BASE_URL}${file_name}`}
@@ -190,22 +153,38 @@ const Photo = ({ history, location }) => {
 
   return (
     <Fragment>
-      {photoState.redirect && <Redirect to={photoState.redirect} />}
+      {(!validUrlColor || photoState.redirect) && <Redirect to={!validUrlColor ? `/` : photoState.redirect} />}
       <Toolbar
         toolbarType="photoToolbar"
-        currentColor={urlColorParam}
+        currentColor={validUrlColor}
         switchButtonClicked={switchButtonClickedHandler}
         isSwitchButtonDisabled={photoState.isSwitchButtonDisabled}
       />
       <div className={classes.Frame}>
-        {photoState.isLoading && (
+        {photoState.loading && (
           <Spinner additionalClassName="PhotoSpinner"></Spinner>
         )}
-        {photoState.data.photo && renderPhoto(photoState.data.photo)}
-        {photoState.error && <div>{photoState.error}</div>}
+        {photoData && renderPhoto(photoData)}
+        {error && <div>{error}</div>}
       </div>
     </Fragment>
   );
 };
 
-export default React.memo(Photo);
+const mapStateToProps = (state) => {
+  return {
+    photoData: state.photo.data,
+    photoIndex: state.photo.index,
+    collectionData: state.collection.data,
+    error: state.collection.error,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onFetchCollection: (color) => dispatch(actions.fetchCollection(color)),
+    onSetPhotoData: (data, index) => dispatch(actions.setPhotoData(data, index)),
+  };
+};
+
+export default React.memo(connect(mapStateToProps, mapDispatchToProps)(Photo));

@@ -25,10 +25,6 @@ export const fetchCollectionFailed = (errorMessage, color) => {
   return {
     type: actionTypes.FETCH_COLLECTION_FAILED,
     errorMsg: errorMessage,
-    currentColor: color,
   };
 };
 
-export const getCollection = (color) => {
-  return { type: actionTypes.GET_COLLECTION, currentColor: color };
-};

@@ -3,5 +3,6 @@ export {
   fetchCollectionStart,
   fetchCollectionSuccess,
   fetchCollectionFailed,
-  getCollection,
 } from "./collection";
+
+export { setPhotoData } from './photo'

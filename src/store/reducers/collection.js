@@ -2,7 +2,7 @@ import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../../shared/utility";
 
 const initialState = {
-  collection: {},
+  data: null,
   error: false,
   loading: false,
 };
@@ -15,17 +15,11 @@ const fetchCollectionStart = (state, action) => {
 
 const fetchCollectionSuccess = (state, action) => {
   return updateObject(state, {
-    collection: {
-      ...state.collection,
+    data: {
+      ...state.data,
       [action.currentColor]: action.collectionData,
     },
     error: false,
-    loading: false,
-  });
-};
-
-const getCollection = (state, action) => {
-  return updateObject(state, {
     loading: false,
   });
 };
@@ -43,8 +37,6 @@ const reducer = (state = initialState, action) => {
       return fetchCollectionStart(state, action);
     case actionTypes.FETCH_COLLECTION_SUCCESS:
       return fetchCollectionSuccess(state, action);
-    case actionTypes.GET_COLLECTION:
-      return getCollection(state, action);
     case actionTypes.FETCH_COLLECTION_FAILED:
       return fetchCollectionFailed(state, action);
     default:

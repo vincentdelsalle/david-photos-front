@@ -7,14 +7,21 @@ import Toolbar from "../../components/Navigation/Toolbar/Toolbar";
 import ThumbnailsFrame from "../../components/ThumbnailsFrame/ThumbnailsFrame";
 import * as actions from "../../store/actions";
 
-const Collection = ({ onFetchCollection, colData, loading, error }) => {
+const Collection = ({ onFetchCollection, collectionData, loading, error }) => {
   const { color: urlColorParam } = useParams();
+
   const validUrlColor = ALL_COLORS_LIST.find(
     (colorName) => colorName === urlColorParam
   );
+
+  const collectionInStore = collectionData && collectionData[validUrlColor];
+
   useEffect(() => {
+    if (!validUrlColor || collectionInStore) {
+      return
+    }
     onFetchCollection(validUrlColor);
-  }, [onFetchCollection, validUrlColor]);
+  }, [validUrlColor, collectionInStore, onFetchCollection]);
 
   return (
     <Fragment>
@@ -27,7 +34,7 @@ const Collection = ({ onFetchCollection, colData, loading, error }) => {
           />
           <ThumbnailsFrame
             currentColor={validUrlColor}
-            colorCollectionData={colData[validUrlColor]}
+            colorCollectionData={collectionData && collectionData[validUrlColor]}
             loading={loading}
             error={error}
           />
@@ -39,9 +46,9 @@ const Collection = ({ onFetchCollection, colData, loading, error }) => {
 
 const mapStateToProps = (state) => {
   return {
-    colData: state.collection,
-    loading: state.loading,
-    error: state.error,
+    collectionData: state.collection.data,
+    loading: state.collection.loading,
+    error: state.collection.error,
   };
 };
 
