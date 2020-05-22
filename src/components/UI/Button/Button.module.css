@@ -11,10 +11,6 @@
   cursor: not-allowed;
 }
 
-.Image {
-  width: 100%;
-}
-
 .previous img {
   transform: scaleX(-1);
 }

@@ -3,14 +3,8 @@ import React from "react";
 import classes from "./Button.module.css";
 
 import { COLOR_HEXACODES } from "../../../shared/constants";
-import whiteArrow from "../../../assets/images/white-arrow.png";
-import blackArrow from "../../../assets/images/black-arrow.png";
 
-const button = ({ currentColor, btnType, buttonClicked, isButtonDisabled }) => {
-  const arrowImg =
-    currentColor === "white" || currentColor === "blackwhite"
-      ? blackArrow
-      : whiteArrow;
+const button = ({ children, currentColor, btnType, buttonClicked, isButtonDisabled }) => {
 
   return (
     <button
@@ -19,7 +13,7 @@ const button = ({ currentColor, btnType, buttonClicked, isButtonDisabled }) => {
       onClick={() => buttonClicked(btnType)}
       disabled={isButtonDisabled}
     >
-      <img className={classes.Image} src={arrowImg} alt={`${btnType}`} />
+      {children}
     </button>
   );
 };
