@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 import classes from "./Homepage.module.css";
+import signature from "../../assets/images/signature.png";
 import ColorGate from "../../components/HomepageFrame/ColorGate/ColorGate";
 
 class Homepage extends Component {
@@ -9,6 +10,10 @@ class Homepage extends Component {
   colorSelectedHandler = color => {
     this.props.history.push("/gallery/" + color);
   };
+
+  adminAccessHandler = () => {
+    this.props.history.push("/auth");
+  }
 
   render() {
     return (
@@ -65,8 +70,8 @@ class Homepage extends Component {
           galleryReached={() => this.colorSelectedHandler("green")}
         />
 
-        <div className={classes.Signature}>
-          <img src="" alt="" />
+        <div className={classes.Signature} onClick={this.adminAccessHandler}>
+          <img src={signature} alt="signature" />
         </div>
 
         <ColorGate

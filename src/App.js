@@ -5,6 +5,7 @@ import Layout from "./hoc/Layout/Layout";
 import Homepage from "./containers/Homepage/Homepage";
 import Collection from "./containers/Collection/Collection";
 import Photo from "./containers/Photo/Photo";
+import Auth from "./containers/Auth/Auth"
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Switch>
           <Route path="/gallery/:color/:id" exact component={Photo} />
           <Route path="/gallery/:color" exact component={Collection} />
+          <Route path="/auth" exact component={Auth} />
           <Route path="/" exact component={Homepage} />
           <Route render={() => <h1>Not found.</h1>} />
         </Switch>

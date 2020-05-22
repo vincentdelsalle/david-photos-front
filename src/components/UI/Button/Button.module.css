@@ -1,7 +1,5 @@
 .Button {
-  width: 45px;
   height: 45px;
-  border: 2px solid #ffffff;
   box-sizing: border-box;
   cursor: pointer;
 }
@@ -11,6 +9,25 @@
   cursor: not-allowed;
 }
 
-.previous img {
+.Button.previous,
+.Button.next {
+  width: 45px;
+  border: 2px solid #ffffff;
+}
+
+.Button.previous img {
   transform: scaleX(-1);
+}
+
+.Success {
+  background-color: #5c9210;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 4px;
+  width: 100px;
+}
+
+.Danger {
+  background-color: #944317;
 }

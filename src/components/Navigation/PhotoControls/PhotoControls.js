@@ -22,7 +22,7 @@ const photoControls = ({
       {buttonTypes.map((btnType) => (
         <Button
           key={btnType}
-          currentColor={currentColor}
+          buttonColor={currentColor}
           btnType={btnType}
           buttonClicked={switchButtonClicked}
           isButtonDisabled={isSwitchButtonDisabled[btnType]}

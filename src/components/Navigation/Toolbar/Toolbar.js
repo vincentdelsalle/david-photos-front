@@ -12,8 +12,13 @@ const toolbar = ({
   switchButtonClicked,
   isSwitchButtonDisabled,
 }) => {
+  const attachedClasses = [
+    classes.Toolbar,
+    classes[toolbarType],
+  ];
+
   return (
-    <div className={classes.Toolbar}>
+    <div className={attachedClasses.join(" ")} >
       <div className={classes.Logo}>
         <Logo />
       </div>

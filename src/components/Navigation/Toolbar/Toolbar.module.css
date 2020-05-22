@@ -1,9 +1,11 @@
 .Toolbar {
-  float: left;
   width: 230px;
-  height: 520px;
   padding-left: 112px;
   box-sizing: border-box;
+}
+
+.Toolbar.collectionToolbar {
+  height: 520px;
 }
 
 .Logo {
@@ -12,4 +14,10 @@
 
 .NavPanel {
   height: calc(100% - 65px);
+}
+
+@media (min-width: 768px) {
+  .Toolbar {
+    float: left;
+  }
 }
