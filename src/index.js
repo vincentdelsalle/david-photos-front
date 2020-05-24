@@ -11,13 +11,15 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import collectionReducer from "./store/reducers/collection";
 import photoReducer from "./store/reducers/photo";
-import { watchCollection } from "./store/sagas";
+import authReducer from "./store/reducers/auth";
+import { watchCollection, watchAuth } from "./store/sagas";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
   collection: collectionReducer,
-  photo: photoReducer
+  photo: photoReducer,
+  auth: authReducer
 });
 
 const sagaMiddleware = createSagaMiddleware();
@@ -31,6 +33,7 @@ const store = createStore(
   composeEnhancers(applyMiddleware(sagaMiddleware, logger))
 );
 
+sagaMiddleware.run(watchAuth);
 sagaMiddleware.run(watchCollection);
 
 ReactDOM.render(
