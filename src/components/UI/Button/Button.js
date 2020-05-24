@@ -10,7 +10,7 @@ const button = ({ children, buttonColor, btnType, buttonClicked, isButtonDisable
     <button
       style={{ backgroundColor: COLOR_HEXACODES[buttonColor] }}
       className={[classes.Button, classes[btnType]].join(" ")}
-      onClick={() => buttonClicked(btnType)}
+      onClick={buttonClicked}
       disabled={isButtonDisabled}
     >
       {children}

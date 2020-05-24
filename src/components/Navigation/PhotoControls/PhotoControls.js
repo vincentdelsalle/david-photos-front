@@ -24,7 +24,7 @@ const photoControls = ({
           key={btnType}
           buttonColor={currentColor}
           btnType={btnType}
-          buttonClicked={switchButtonClicked}
+          buttonClicked={() => switchButtonClicked(btnType)}
           isButtonDisabled={isSwitchButtonDisabled[btnType]}
         ><img className={classes.Image} src={arrowImg} alt={`${btnType}`} /></Button>
       ))}
