@@ -1,5 +1,6 @@
 import React, { useState, Fragment } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom'
 
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar'
 import Input from '../../components/UI/Input/Input'
@@ -90,8 +91,14 @@ const Auth = props => {
     errorMessage = <p>{props.error}</p>
   }
 
+  let authRedirect = null;
+  if (props.isAuthenticated) {
+    authRedirect = <Redirect to="/admin" />;
+  }
+
   return (
     <Fragment>
+      {authRedirect}
       <Toolbar toolbarType="authToolbar" />
       <div className={classes.Auth}>
         <form onSubmit={submitHandler}>
@@ -107,6 +114,7 @@ const mapStateToProps = state => {
   return {
     loading: state.auth.loading,
     error: state.auth.error,
+    isAuthenticated: state.auth.token !== null
   };
 };
 

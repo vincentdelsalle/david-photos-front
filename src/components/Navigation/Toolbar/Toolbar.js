@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from 'react-router-dom'
 
 import classes from "./Toolbar.module.css";
 import Logo from "../../Logo/Logo";
@@ -38,6 +39,9 @@ const toolbar = ({
               isSwitchButtonDisabled={isSwitchButtonDisabled}
             ></PhotoControls>
           </React.Fragment>
+        )}
+        {toolbarType === "adminToolbar" && (
+          <Link to="/logout">Logout</Link>
         )}
       </nav>
     </div>
