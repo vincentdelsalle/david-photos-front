@@ -5,6 +5,7 @@ export const FETCH_COLLECTION_FAILED = "FETCH_COLLECTION_FAILED";
 
 export const SET_PHOTO_DATA = 'SET_PHOTO_DATA'
 
+export const AUTH_CHECK_STATE = 'AUTH_CHECK_STATE';
 export const AUTH_USER = 'AUTH_USER';
 export const AUTH_START = 'AUTH_START'
 export const AUTH_SUCCESS = 'AUTH_SUCCESS'

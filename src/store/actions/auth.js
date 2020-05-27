@@ -47,3 +47,9 @@ export const checkAuthTimeout = expirationTime => {
     expirationTime: expirationTime
   };
 };
+
+export const authCheckState = () => {
+  return {
+    type: actionTypes.AUTH_CHECK_STATE
+  };
+};

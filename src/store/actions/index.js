@@ -8,6 +8,7 @@ export {
 export { setPhotoData } from './photo'
 
 export {
+  authCheckState,
   auth,
   logout,
   logoutSucceed,
