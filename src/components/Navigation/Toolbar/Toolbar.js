@@ -1,11 +1,15 @@
-import React from "react";
-import { Link } from 'react-router-dom'
+import React, { Fragment } from "react";
 
 import classes from "./Toolbar.module.css";
 import Logo from "../../Logo/Logo";
-import NavigationItems from "../NavigationItems/NavigationItems";
-import NavigationItem from "../NavigationItems/NavigationItem/NavigationItem";
+import ColorNavigationItems from "../ColorNavigationItems/ColorNavigationItems";
+import ColorNavigationItem from "../ColorNavigationItems/ColorNavigationItem/ColorNavigationItem";
 import PhotoControls from "../PhotoControls/PhotoControls";
+import AdminNavigationItem from "../AdminNavigationItem/AdminNavigationItem";
+import camera from "../../../assets/images/camera.png";
+import settings from "../../../assets/images/settings.png";
+import user from "../../../assets/images/user.png";
+import logout from "../../../assets/images/logout.png";
 
 const toolbar = ({
   toolbarType,
@@ -13,35 +17,57 @@ const toolbar = ({
   switchButtonClicked,
   isSwitchButtonDisabled,
 }) => {
-  const attachedClasses = [
-    classes.Toolbar,
-    classes[toolbarType],
-  ];
+  const attachedClasses = [classes.Toolbar, classes[toolbarType]];
 
   return (
-    <div className={attachedClasses.join(" ")} >
+    <div className={attachedClasses.join(" ")}>
       <div className={classes.Logo}>
         <Logo />
       </div>
       <nav className={classes.NavPanel}>
         {toolbarType === "collectionToolbar" && (
-          <NavigationItems currentColor={currentColor} />
+          <ColorNavigationItems currentColor={currentColor} />
         )}
         {toolbarType === "photoToolbar" && (
-          <React.Fragment>
-            <NavigationItem
+          <Fragment>
+            <ColorNavigationItem
               color={currentColor}
               navType="photoNav"
-            ></NavigationItem>
+            ></ColorNavigationItem>
             <PhotoControls
               currentColor={currentColor}
               switchButtonClicked={switchButtonClicked}
               isSwitchButtonDisabled={isSwitchButtonDisabled}
             ></PhotoControls>
-          </React.Fragment>
+          </Fragment>
         )}
         {toolbarType === "adminToolbar" && (
-          <Link to="/logout">Logout</Link>
+          <Fragment>
+            <div className={classes.AdminOptions}>
+              <AdminNavigationItem
+                link="#"
+                imgSrc={camera}
+                alt="camera"
+              ></AdminNavigationItem>
+              <AdminNavigationItem
+                link="#"
+                imgSrc={settings}
+                alt="settings"
+              ></AdminNavigationItem>
+              <AdminNavigationItem
+                link="#"
+                imgSrc={user}
+                alt="user"
+              ></AdminNavigationItem>
+            </div>
+            <div>
+              <AdminNavigationItem
+                link="/logout"
+                imgSrc={logout}
+                alt="logout"
+              ></AdminNavigationItem>
+            </div>
+          </Fragment>
         )}
       </nav>
     </div>

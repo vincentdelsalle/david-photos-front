@@ -1,10 +1,10 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 
-import classes from "./NavigationItem.module.css";
+import classes from "./ColorNavigationItem.module.css";
 import { COLOR_HEXACODES } from "../../../../shared/constants";
 
-const navigationItem = ({ color, navType, history }) => {
+const colorNavigationItem = ({ color, navType, history }) => {
   const attachedClasses = [
     classes.NavigationItem,
     classes[navType],
@@ -19,4 +19,4 @@ const navigationItem = ({ color, navType, history }) => {
   );
 };
 
-export default withRouter(navigationItem);
+export default withRouter(colorNavigationItem);

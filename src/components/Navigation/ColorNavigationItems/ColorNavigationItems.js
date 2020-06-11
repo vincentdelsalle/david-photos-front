@@ -1,23 +1,23 @@
 import React from "react";
 
-import classes from "./NavigationItems.module.css";
+import classes from "./ColorNavigationItems.module.css";
 import { ALL_COLORS_LIST } from "../../../shared/constants";
-import NavigationItem from "./NavigationItem/NavigationItem";
+import ColorNavigationItem from "./ColorNavigationItem/ColorNavigationItem";
 
-const navigationItems = ({ currentColor }) => {
+const colorNavigationItems = ({ currentColor }) => {
   const navColors = ALL_COLORS_LIST.filter((c) => c !== currentColor);
 
   return (
     <div className={classes.NavigationItems}>
       {navColors.map((color) => (
-        <NavigationItem
+        <ColorNavigationItem
           key={color}
           color={color}
           navType="collectionNav"
-        ></NavigationItem>
+        ></ColorNavigationItem>
       ))}
     </div>
   );
 };
 
-export default navigationItems;
+export default colorNavigationItems;

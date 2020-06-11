@@ -1,5 +1,6 @@
 .Toolbar {
   width: 230px;
+  height: 100%;
   padding-left: 112px;
   box-sizing: border-box;
 }
@@ -14,6 +15,16 @@
 
 .NavPanel {
   height: calc(100% - 65px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.AdminOptions {
+  height: 210px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
 }
 
 @media (min-width: 768px) {
