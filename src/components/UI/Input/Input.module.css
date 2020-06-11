@@ -20,6 +20,10 @@
   box-sizing: border-box;
 }
 
+.InputElement[type="file"] {
+  background-color: black;
+}
+
 .InputElement:focus {
   outline: none;
   background-color: #ccc;

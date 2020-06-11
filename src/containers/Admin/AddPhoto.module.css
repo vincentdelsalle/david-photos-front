@@ -1,0 +1,48 @@
+.AddPhoto {
+  height: 400px;
+}
+.AddPhotoForm {
+  width: 80%;
+  box-sizing: border-box;
+  margin: 20px auto 0;
+}
+
+.AddPhotoTitle {
+  margin-top: 0;
+}
+
+.AddPhotoForm label {
+  display: inline-block;
+  width: 20%;
+}
+.AddPhotoForm input,
+.AddPhotoForm select {
+  display: inline-block;
+  width: 80%;
+}
+
+@media (min-width: 768px) {
+  .AddPhotoForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 0;
+    width: 500px;
+    height: 100%;
+    float: left;
+  }
+
+  .PhotoPreviewFrame {
+    display: inline-block;
+    height: 100%;
+    padding-left: 150px;
+  }
+
+  .PhotoPreviewImg {
+    border: 2px solid #fff;
+    padding: 2px;
+    max-height: 100%;
+    min-height: 400px;
+    box-sizing: border-box;
+  }
+}

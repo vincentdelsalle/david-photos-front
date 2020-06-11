@@ -1,44 +1,44 @@
-import React, { useState, Fragment } from 'react';
-import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom'
+import React, { useState, Fragment } from "react";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 
-import Toolbar from '../../components/Navigation/Toolbar/Toolbar'
-import Input from '../../components/UI/Input/Input'
-import Button from '../../components/UI/Button/Button'
-import Spinner from '../../components/UI/Spinner/Spinner'
-import classes from './Auth.module.css';
-import * as actions from '../../store/actions'
-import { updateObject, checkValidity } from '../../shared/utility'
+import Toolbar from "../../components/Navigation/Toolbar/Toolbar";
+import Input from "../../components/UI/Input/Input";
+import Button from "../../components/UI/Button/Button";
+import Spinner from "../../components/UI/Spinner/Spinner";
+import classes from "./Auth.module.css";
+import * as actions from "../../store/actions";
+import { updateObject, checkValidity } from "../../shared/utility";
 
-const Auth = props => {
+const Auth = (props) => {
   const [authForm, setAuthForm] = useState({
     userName: {
-      elementType: 'input',
+      elementType: "input",
       elementConfig: {
-        type: 'text',
-        placeholder: 'Username'
+        type: "text",
+        placeholder: "Username",
       },
-      value: '',
+      value: "",
       validation: {
         required: true,
       },
       valid: false,
-      touched: false
+      touched: false,
     },
     password: {
-      elementType: 'input',
+      elementType: "input",
       elementConfig: {
-        type: 'password',
-        placeholder: 'Password'
+        type: "password",
+        placeholder: "Password",
       },
-      value: '',
+      value: "",
       validation: {
         required: true,
-        minLength: 6
+        minLength: 6,
       },
       valid: false,
-      touched: false
-    }
+      touched: false,
+    },
   });
 
   const inputChangedHandler = (event, controlName) => {
@@ -49,13 +49,13 @@ const Auth = props => {
           event.target.value,
           authForm[controlName].validation
         ),
-        touched: true
-      })
+        touched: true,
+      }),
     });
     setAuthForm(updatedControls);
   };
 
-  const submitHandler = event => {
+  const submitHandler = (event) => {
     event.preventDefault();
     props.onAuth(authForm.userName.value, authForm.password.value);
   };
@@ -64,11 +64,11 @@ const Auth = props => {
   for (let key in authForm) {
     formElementsArray.push({
       id: key,
-      config: authForm[key]
+      config: authForm[key],
     });
   }
 
-  let form = formElementsArray.map(formElement => (
+  let form = formElementsArray.map((formElement) => (
     <Input
       key={formElement.id}
       elementType={formElement.config.elementType}
@@ -77,23 +77,23 @@ const Auth = props => {
       invalid={!formElement.config.valid}
       shouldValidate={formElement.config.validation}
       touched={formElement.config.touched}
-      changed={event => inputChangedHandler(event, formElement.id)}
+      changed={(event) => inputChangedHandler(event, formElement.id)}
     />
   ));
 
   if (props.loading) {
-    form = <Spinner />
+    form = <Spinner />;
   }
 
-  let errorMessage = null
+  let errorMessage = null;
 
   if (props.error) {
-    errorMessage = <p>{props.error}</p>
+    errorMessage = <p>{props.error}</p>;
   }
 
   let authRedirect = null;
   if (props.isAuthenticated) {
-    authRedirect = <Redirect to="/admin" />;
+    authRedirect = <Redirect to="/admin/addphoto" />;
   }
 
   return (
@@ -106,22 +106,23 @@ const Auth = props => {
           <Button btnType="Success">SUBMIT</Button>
         </form>
         {errorMessage}
-      </div></Fragment>
+      </div>
+    </Fragment>
   );
-}
+};
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     loading: state.auth.loading,
     error: state.auth.error,
-    isAuthenticated: state.auth.token !== null
+    isAuthenticated: state.auth.token !== null,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     onAuth: (username, password) => dispatch(actions.auth(username, password)),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Auth)
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);
