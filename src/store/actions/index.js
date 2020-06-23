@@ -5,7 +5,13 @@ export {
   fetchCollectionFailed,
 } from "./collection";
 
-export { setPhotoData } from './photo'
+export {
+  setPhotoData,
+  uploadPhoto,
+  uploadPhotoInit,
+  uploadPhotoStart,
+  uploadPhotoSuccess,
+} from "./photo";
 
 export {
   authCheckState,
@@ -15,5 +21,5 @@ export {
   authStart,
   authSuccess,
   authFail,
-  checkAuthTimeout
-} from './auth'
+  checkAuthTimeout,
+} from "./auth";

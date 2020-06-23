@@ -6,9 +6,6 @@ import ColorNavigationItems from "../ColorNavigationItems/ColorNavigationItems";
 import ColorNavigationItem from "../ColorNavigationItems/ColorNavigationItem/ColorNavigationItem";
 import PhotoControls from "../PhotoControls/PhotoControls";
 import AdminNavigationItem from "../AdminNavigationItem/AdminNavigationItem";
-import camera from "../../../assets/images/camera.png";
-import settings from "../../../assets/images/settings.png";
-import user from "../../../assets/images/user.png";
 import logout from "../../../assets/images/logout.png";
 
 const toolbar = ({
@@ -16,8 +13,10 @@ const toolbar = ({
   currentColor,
   switchButtonClicked,
   isSwitchButtonDisabled,
+  adminFeature,
 }) => {
   const attachedClasses = [classes.Toolbar, classes[toolbarType]];
+  const adminItems = ["uploadphoto", "editcollection", "edituser"];
 
   return (
     <div className={attachedClasses.join(" ")}>
@@ -44,27 +43,21 @@ const toolbar = ({
         {toolbarType === "adminToolbar" && (
           <Fragment>
             <div className={classes.AdminOptions}>
-              <AdminNavigationItem
-                link="#"
-                imgSrc={camera}
-                alt="camera"
-              ></AdminNavigationItem>
-              <AdminNavigationItem
-                link="#"
-                imgSrc={settings}
-                alt="settings"
-              ></AdminNavigationItem>
-              <AdminNavigationItem
-                link="#"
-                imgSrc={user}
-                alt="user"
-              ></AdminNavigationItem>
+              {adminItems.map((item) => (
+                <AdminNavigationItem
+                  key={item}
+                  link={`/admin/${item}`}
+                  imgSrc={`../img/${item}.png`}
+                  itemType={item}
+                  hide={adminFeature === item}
+                ></AdminNavigationItem>
+              ))}
             </div>
             <div>
               <AdminNavigationItem
                 link="/logout"
                 imgSrc={logout}
-                alt="logout"
+                itemType="logout"
               ></AdminNavigationItem>
             </div>
           </Fragment>

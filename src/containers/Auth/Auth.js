@@ -93,7 +93,7 @@ const Auth = (props) => {
 
   let authRedirect = null;
   if (props.isAuthenticated) {
-    authRedirect = <Redirect to="/admin/addphoto" />;
+    authRedirect = <Redirect to="/admin/uploadphoto" />;
   }
 
   return (

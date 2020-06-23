@@ -4,7 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { createStore, applyMiddleware, compose, combineReducers } from "redux";
 import { Provider } from "react-redux";
 import createSagaMiddleware from "redux-saga";
-import { createLogger } from 'redux-logger'
+import { createLogger } from "redux-logger";
 
 import "./index.css";
 import App from "./App";
@@ -12,20 +12,20 @@ import * as serviceWorker from "./serviceWorker";
 import collectionReducer from "./store/reducers/collection";
 import photoReducer from "./store/reducers/photo";
 import authReducer from "./store/reducers/auth";
-import { watchCollection, watchAuth } from "./store/sagas";
+import { watchCollection, watchAuth, watchPhoto } from "./store/sagas";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
   collection: collectionReducer,
   photo: photoReducer,
-  auth: authReducer
+  auth: authReducer,
 });
 
 const sagaMiddleware = createSagaMiddleware();
 
 const logger = createLogger({
-  collapsed: true
+  collapsed: true,
 });
 
 const store = createStore(
@@ -35,6 +35,7 @@ const store = createStore(
 
 sagaMiddleware.run(watchAuth);
 sagaMiddleware.run(watchCollection);
+sagaMiddleware.run(watchPhoto);
 
 ReactDOM.render(
   <Provider store={store}>

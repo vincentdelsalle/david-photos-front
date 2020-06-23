@@ -22,6 +22,7 @@
 
 .InputElement[type="file"] {
   background-color: black;
+  width: 25%;
 }
 
 .InputElement:focus {

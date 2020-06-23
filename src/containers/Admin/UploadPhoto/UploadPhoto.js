@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
+import { connect } from "react-redux";
 
-import Toolbar from "../../components/Navigation/Toolbar/Toolbar";
-import Input from "../../components/UI/Input/Input";
-import Button from "../../components/UI/Button/Button";
-import classes from "./AddPhoto.module.css";
-import { updateObject, checkValidity } from "../../shared/utility";
+import Toolbar from "../../../components/Navigation/Toolbar/Toolbar";
+import Input from "../../../components/UI/Input/Input";
+import Button from "../../../components/UI/Button/Button";
+import Modal from "../../../components/UI/Modal/Modal";
+import Spinner from "../../../components/UI/Spinner/Spinner";
+import classes from "./UploadPhoto.module.css";
+import * as actions from "../../../store/actions";
+import { updateObject, checkValidity } from "../../../shared/utility";
 
-const AddPhoto = (props) => {
+const UploadPhoto = (props) => {
   const [uploadPhotoForm, setUploadPhotoForm] = useState({
     place: {
       elementType: "input",
@@ -120,9 +124,23 @@ const AddPhoto = (props) => {
   });
   const [formIsValid, setFormIsValid] = useState(false);
 
+  const adminFeature = props.history.location.pathname.split("/").pop();
+
   const uploadPhotoHandler = (event) => {
     event.preventDefault();
-    console.log("...upload photo submitted...");
+
+    const fd = new FormData();
+    fd.append(
+      "uploadFile",
+      uploadPhotoForm.photo.selectedFile,
+      uploadPhotoForm.photo.selectedFile.name
+    );
+    fd.append("place", uploadPhotoForm.place.value);
+    fd.append("year", uploadPhotoForm.year.value);
+    fd.append("month", uploadPhotoForm.month.value);
+    fd.append("color", uploadPhotoForm.color.value);
+
+    props.onUploadPhoto(fd, props.token);
   };
 
   const inputChangedHandler = (event, inputIdentifier) => {
@@ -159,6 +177,46 @@ const AddPhoto = (props) => {
     setFormIsValid(formIsValid);
   };
 
+  const resetUploadPhotoFormHandler = () => {
+    setUploadPhotoForm({
+      ...uploadPhotoForm,
+      place: {
+        ...uploadPhotoForm.place,
+        value: "",
+        valid: false,
+        touched: false,
+      },
+      year: {
+        ...uploadPhotoForm.year,
+        value: "",
+        valid: false,
+        touched: false,
+      },
+      month: {
+        ...uploadPhotoForm.month,
+        value: "",
+        valid: false,
+        touched: false,
+      },
+      color: {
+        ...uploadPhotoForm.color,
+        value: "",
+        valid: false,
+        touched: false,
+      },
+      photo: {
+        ...uploadPhotoForm.photo,
+        selectedFile: null,
+        file: null,
+        value: "",
+        valid: false,
+        touched: false,
+      },
+    });
+    setFormIsValid(false);
+    props.onInitForm();
+  };
+
   const formElementsArray = [];
   for (let key in uploadPhotoForm) {
     formElementsArray.push({
@@ -167,43 +225,70 @@ const AddPhoto = (props) => {
     });
   }
 
-  let form = formElementsArray.map((formElement) => (
-    <Input
-      key={formElement.id}
-      elementType={formElement.config.elementType}
-      elementConfig={formElement.config.elementConfig}
-      value={formElement.config.value}
-      invalid={!formElement.config.valid}
-      shouldValidate={formElement.config.validation}
-      touched={formElement.config.touched}
-      label={formElement.config.label}
-      changed={(event) => inputChangedHandler(event, formElement.id)}
-    />
-  ));
+  let form = (
+    <form onSubmit={uploadPhotoHandler}>
+      {formElementsArray.map((formElement) => (
+        <Input
+          key={formElement.id}
+          elementType={formElement.config.elementType}
+          elementConfig={formElement.config.elementConfig}
+          value={formElement.config.value}
+          invalid={!formElement.config.valid}
+          shouldValidate={formElement.config.validation}
+          touched={formElement.config.touched}
+          label={formElement.config.label}
+          changed={(event) => inputChangedHandler(event, formElement.id)}
+        />
+      ))}
+      <Button btnType="Success" isButtonDisabled={!formIsValid}>
+        SUBMIT
+      </Button>
+    </form>
+  );
+
+  if (props.loading) {
+    form = <Spinner />;
+  }
 
   return (
-    <div className={classes.AddPhoto}>
-      <Toolbar toolbarType="adminToolbar" />
-      <div className={classes.AddPhotoForm}>
-        <h1 className={classes.AddPhotoTitle}>UPLOAD A PHOTO</h1>
-        <form onSubmit={uploadPhotoHandler}>
+    <Fragment>
+      <Modal show={props.message} modalClosed={resetUploadPhotoFormHandler}>
+        {props.message}
+      </Modal>
+      <div className={classes.UploadPhoto}>
+        <Toolbar adminFeature={adminFeature} toolbarType="adminToolbar" />
+        <div className={classes.UploadPhotoForm}>
+          <h1 className={classes.UploadPhotoTitle}>UPLOAD A PHOTO</h1>
           {form}
-          <Button btnType="Success" isButtonDisabled={!formIsValid}>
-            SUBMIT
-          </Button>
-        </form>
+        </div>
+        <div className={classes.PhotoPreviewFrame}>
+          {uploadPhotoForm.photo.file && (
+            <img
+              className={classes.PhotoPreviewImg}
+              src={uploadPhotoForm.photo.file}
+              alt={uploadPhotoForm.photo.selectedFile.name}
+            />
+          )}
+        </div>
       </div>
-      <div className={classes.PhotoPreviewFrame}>
-        {uploadPhotoForm.photo.file && (
-          <img
-            className={classes.PhotoPreviewImg}
-            src={uploadPhotoForm.photo.file}
-            alt={uploadPhotoForm.photo.selectedFile.name}
-          />
-        )}
-      </div>
-    </div>
+    </Fragment>
   );
 };
 
-export default AddPhoto;
+const mapStateToProps = (state) => {
+  return {
+    token: state.auth.token,
+    loading: state.photo.loading,
+    message: state.photo.message,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onUploadPhoto: (photoData, token) =>
+      dispatch(actions.uploadPhoto(photoData, token)),
+    onInitForm: () => dispatch(actions.uploadPhotoInit()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(UploadPhoto);
