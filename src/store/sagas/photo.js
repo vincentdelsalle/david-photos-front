@@ -10,9 +10,12 @@ export function* uploadPhotoSaga(action) {
       `/pictures?token=${action.token}`,
       action.photoData
     );
-    yield put(actions.uploadPhotoSuccess(response.data.message));
+    if (response.data.status === "success") {
+      yield put(actions.uploadPhotoSuccess(response.data.message));
+    } else {
+      yield put(actions.uploadPhotoFail(response.data.message));
+    }
   } catch (error) {
-    console.log("error :>> ", error);
-    // yield put(actions.uploadPhotoFail(error));
+    yield put(actions.uploadPhotoFail(error.message));
   }
 }

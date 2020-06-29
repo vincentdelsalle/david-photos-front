@@ -5,6 +5,8 @@
   width: 80%;
   box-sizing: border-box;
   margin: 20px auto 0;
+  position: relative;
+  margin-bottom: 100px;
 }
 
 .UploadPhotoTitle {
@@ -21,12 +23,25 @@
   width: 80%;
 }
 
+.ErrorMessage {
+  position: absolute;
+  width: 100%;
+  bottom: -70px;
+  border: 1px solid red;
+  background-color: pink;
+  color: darkred;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
 @media (min-width: 768px) {
   .UploadPhotoForm {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin: 0;
+    margin: 0 0 100px 0;
     width: 500px;
     height: 100%;
     float: left;

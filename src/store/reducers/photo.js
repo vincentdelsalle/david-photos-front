@@ -5,7 +5,8 @@ const initialState = {
   data: null,
   index: null,
   loading: false,
-  message: null,
+  successMessage: null,
+  error: null,
 };
 
 const setPhotoData = (state, action) => {
@@ -17,19 +18,28 @@ const setPhotoData = (state, action) => {
 
 const uploadPhotoInit = (state, action) => {
   return updateObject(state, {
-    message: null,
+    successMessage: null,
+    error: null,
   });
 };
 
 const uploadPhotoStart = (state, action) => {
   return updateObject(state, {
     loading: true,
+    error: null,
   });
 };
 
 const uploadPhotoSuccess = (state, action) => {
   return updateObject(state, {
-    message: action.message,
+    successMessage: action.successMessage,
+    loading: false,
+  });
+};
+
+const uploadPhotoFail = (state, action) => {
+  return updateObject(state, {
+    error: action.error,
     loading: false,
   });
 };
@@ -44,6 +54,8 @@ const reducer = (state = initialState, action) => {
       return uploadPhotoStart(state, action);
     case actionTypes.UPLOAD_PHOTO_SUCCESS:
       return uploadPhotoSuccess(state, action);
+    case actionTypes.UPLOAD_PHOTO_FAIL:
+      return uploadPhotoFail(state, action);
     default:
       return state;
   }

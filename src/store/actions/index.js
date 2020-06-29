@@ -11,6 +11,7 @@ export {
   uploadPhotoInit,
   uploadPhotoStart,
   uploadPhotoSuccess,
+  uploadPhotoFail,
 } from "./photo";
 
 export {

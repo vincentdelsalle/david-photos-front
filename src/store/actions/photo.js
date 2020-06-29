@@ -27,6 +27,13 @@ export const uploadPhotoStart = () => {
 export const uploadPhotoSuccess = (message) => {
   return {
     type: actionTypes.UPLOAD_PHOTO_SUCCESS,
-    message: message,
+    successMessage: message,
+  };
+};
+
+export const uploadPhotoFail = (error) => {
+  return {
+    type: actionTypes.UPLOAD_PHOTO_FAIL,
+    error: error,
   };
 };

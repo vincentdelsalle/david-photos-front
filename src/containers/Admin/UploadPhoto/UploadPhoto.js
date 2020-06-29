@@ -144,6 +144,9 @@ const UploadPhoto = (props) => {
   };
 
   const inputChangedHandler = (event, inputIdentifier) => {
+    if (props.error) {
+      props.onInitForm();
+    }
     const updatedFormElement = updateObject(uploadPhotoForm[inputIdentifier], {
       value: event.target.value,
       valid: checkValidity(
@@ -250,16 +253,26 @@ const UploadPhoto = (props) => {
     form = <Spinner />;
   }
 
+  let errorMessage = null;
+
+  if (props.error) {
+    errorMessage = <div className={classes.ErrorMessage}>{props.error}</div>;
+  }
+
   return (
     <Fragment>
-      <Modal show={props.message} modalClosed={resetUploadPhotoFormHandler}>
-        {props.message}
+      <Modal
+        show={props.successMessage}
+        modalClosed={resetUploadPhotoFormHandler}
+      >
+        {props.successMessage}
       </Modal>
       <div className={classes.UploadPhoto}>
         <Toolbar adminFeature={adminFeature} toolbarType="adminToolbar" />
         <div className={classes.UploadPhotoForm}>
           <h1 className={classes.UploadPhotoTitle}>UPLOAD A PHOTO</h1>
           {form}
+          {errorMessage}
         </div>
         <div className={classes.PhotoPreviewFrame}>
           {uploadPhotoForm.photo.file && (
@@ -279,7 +292,8 @@ const mapStateToProps = (state) => {
   return {
     token: state.auth.token,
     loading: state.photo.loading,
-    message: state.photo.message,
+    successMessage: state.photo.successMessage,
+    error: state.photo.error,
   };
 };
 
